@@ -1,0 +1,17 @@
+
+.container-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+
+}
+
+.container-wrapper .container { 
+    flex-basis: 25%;
+}
+
+.container {
+    background-color: rgba(197, 35, 35, 0.3);
+    padding: 8px;
+}

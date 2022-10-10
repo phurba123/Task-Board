@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { MatCardModule} from '@angular/material/card'
+import { MatCardModule} from '@angular/material/card';
+import {DragDropModule} from '@angular/cdk/drag-drop'
 
 
 
@@ -13,11 +14,13 @@ import { MatCardModule} from '@angular/material/card'
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
+    DragDropModule
   ],
   exports:[
     MatIconModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    DragDropModule
   ]
 })
 export class MaterialModule { }

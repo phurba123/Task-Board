@@ -11,3 +11,8 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+
+.pointer {
+    cursor: pointer;
+    /* border: 1px solid cyan; */
+}
