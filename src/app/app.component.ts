@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Task } from './component/task/task';
 import { CdkDragDrop, transferArrayItem} from '@angular/cdk/drag-drop';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTaskComponent, TaskDialogResult } from './dialog/add-task/add-task.component';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,7 @@ import { CdkDragDrop, transferArrayItem} from '@angular/cdk/drag-drop';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TaskBoard';
+  title = 'task board';
 
   todo: Task[] = [
     {
@@ -22,6 +24,9 @@ export class AppComponent {
   ];
   inProgress: Task[] = [];
   done: Task[] = [];
+
+  constructor( private _dialog : MatDialog)
+  {}
 
 
   editTask(list: string, task: Task): void
@@ -47,5 +52,26 @@ export class AppComponent {
       event.previousIndex,
       event.currentIndex
     );
+  }
+
+  // new task addition
+  newTask(): void {
+    // open add task dialog for adding new task
+    const addTaskDialogRef = this._dialog.open(AddTaskComponent, {
+      width: "280px",
+      data : {
+        task : {}
+      },
+    });
+
+    addTaskDialogRef.afterClosed().subscribe((res : TaskDialogResult | undefined) =>{
+      console.log('res : ', res)
+      if(!res) {
+        console.log('no data returned : ', res);
+        return;
+      }
+
+      this.todo.push(res.task)
+    })
   }
 }

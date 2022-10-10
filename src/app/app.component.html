@@ -1,13 +1,15 @@
 
 
 <mat-toolbar style="border: 1px solid gray;">
-  <mat-icon>local_fire_department</mat-icon>
-  <span>Kanban Fire</span>
+  <span>{{title | titlecase}}</span>
 </mat-toolbar>
 
-<!-- <app-task *ngFor="let task of todo" [task]="task" style="margin-top: 10px;">
-</app-task> -->
 <div class="content-wrapper">
+
+  <button (click)="newTask()" mat-button>
+    <mat-icon>add</mat-icon> Add Task
+  </button>
+
   <div class="container-wrapper">
     
     <div class="container">
