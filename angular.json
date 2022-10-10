@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "TaskLog": {
+    "TaskBoard": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "TaskLog:build:production"
+              "browserTarget": "TaskBoard:build:production"
             },
             "development": {
-              "browserTarget": "TaskLog:build:development"
+              "browserTarget": "TaskBoard:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "TaskLog:build"
+            "browserTarget": "TaskBoard:build"
           }
         },
         "test": {
