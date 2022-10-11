@@ -30,7 +30,8 @@ export class AddTaskComponent implements OnInit {
 
 }
 
-// Interfaces for task dialog data and task dialog result
+// Interfaces for task dialog data and task dialog result,
+// if we are getting enableDeleted as true then display delete button aswell for deleting task
 export interface TaskDialogData {
   task: Partial<Task>;
   enableDelete: boolean;

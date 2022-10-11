@@ -29,9 +29,34 @@ export class AppComponent {
   {}
 
 
-  editTask(list: string, task: Task): void
+  editTask(list: 'todo'| 'inProgress'| 'done', task: Task): void
   {
     console.log({method : 'editTask', list : list, task : task});
+
+    const dialogRef = this._dialog.open(AddTaskComponent, {
+      width: '280px',
+      data: {
+        task,
+        enableDelete: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: TaskDialogResult|undefined) => {
+      console.log('afterclose res : ', result);
+      if (!result) {
+        console.log('inside condition !result')
+        return;
+      }
+      const dataList = this[list];
+      console.log('this : ',this);
+      const taskIndex = dataList.indexOf(task);
+      if (result.delete) {
+        console.log('if delte')
+        dataList.splice(taskIndex, 1);
+      } else {
+        console.log('else dele')
+        dataList[taskIndex] = task;
+      }
+    });
   }
 
   drop(event: CdkDragDrop<Task[]>): void {
@@ -60,14 +85,13 @@ export class AppComponent {
     const addTaskDialogRef = this._dialog.open(AddTaskComponent, {
       width: "280px",
       data : {
-        task : {}
+        task : {},
+        enableDelete: false
       },
     });
 
     addTaskDialogRef.afterClosed().subscribe((res : TaskDialogResult | undefined) =>{
-      console.log('res : ', res)
       if(!res) {
-        console.log('no data returned : ', res);
         return;
       }
 
