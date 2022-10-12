@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "taskboard-8acdf": {
+      "hosting": {
+        "TaskBoard": [
+          "taskboard-8acdf"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "taskboard-8acdf"
+  }
+}

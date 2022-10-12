@@ -21,11 +21,16 @@ export class AddTaskComponent implements OnInit {
   }
 
   cancel(): void {
-    console.log('this.data : ',this.data);
-    console.log('this.backupdata : ', this.backupTask)
-    this.data.task.title = this.backupTask.title;
-    this.data.task.description = this.backupTask.description;
-    this._dialogRef.close(this.data);
+
+    // If user is firing this component for edit or delete purpose then only use it
+    if(this.data.enableDelete) {
+      this.data.task.title = this.backupTask.title;
+      this.data.task.description = this.backupTask.description;
+      this._dialogRef.close(this.data);
+    }
+    else {
+      this._dialogRef.close(null)
+    }
   }
 
 }

@@ -6,7 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { TaskComponent } from './component/task/task.component';
 import { AddTaskComponent } from './dialog/add-task/add-task.component';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule} from '@angular/fire/compat/firestore';
+import { AngularFireModule} from '@angular/fire/compat'
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { FormsModule } from '@angular/forms'
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    // AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
   ],
   providers: [],
   bootstrap: [AppComponent]

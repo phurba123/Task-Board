@@ -3,6 +3,16 @@ import { Task } from './component/task/task';
 import { CdkDragDrop, transferArrayItem} from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTaskComponent, TaskDialogResult } from './dialog/add-task/add-task.component';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
+
+const getObservable = (collection: AngularFirestoreCollection<Task>) => {
+  const subject = new BehaviorSubject<Task[]>([]);
+  collection.valueChanges({ idField: 'id' }).subscribe((val: Task[]) => {
+    subject.next(val);
+  });
+  return subject;
+};
 
 @Component({
   selector: 'app-root',
@@ -12,26 +22,33 @@ import { AddTaskComponent, TaskDialogResult } from './dialog/add-task/add-task.c
 export class AppComponent {
   title = 'task board';
 
-  todo: Task[] = [
-    {
-      title: 'Buy milk',
-      description: 'Go to the store and buy milk'
-    },
-    {
-      title: 'Create a Kanban app',
-      description: 'Using Firebase and Angular create a Kanban app!'
-    }
-  ];
-  inProgress: Task[] = [];
-  done: Task[] = [];
+  private todoCollection : AngularFirestoreCollection<Task>;
+  private inProgressCollection : AngularFirestoreCollection<Task>;
+  private doneCollection : AngularFirestoreCollection<Task>;
+  todo$ : Observable<Task[]>;
+  inProgress$ : Observable <Task[]>;
+  done$ : Observable<Task[]>;
+  tempText?:string
 
-  constructor( private _dialog : MatDialog)
-  {}
+  constructor( private _dialog : MatDialog, private readonly  _firestore : AngularFirestore)
+  {
+    this.todoCollection = _firestore.collection<Task>('todo');
+    this.todo$ = getObservable(this.todoCollection)
 
+    this.inProgressCollection = _firestore.collection<Task>('inProgress');
+    this.inProgress$ = getObservable(this.inProgressCollection)
+
+    this.doneCollection = _firestore.collection<Task>('done');
+    this.done$ = getObservable(this.doneCollection);
+
+    
+  }
+
+  ngOnInit(): void {
+  }
 
   editTask(list: 'todo'| 'inProgress'| 'done', task: Task): void
   {
-    console.log({method : 'editTask', list : list, task : task});
 
     const dialogRef = this._dialog.open(AddTaskComponent, {
       width: '280px',
@@ -41,36 +58,38 @@ export class AppComponent {
       },
     });
     dialogRef.afterClosed().subscribe((result: TaskDialogResult|undefined) => {
-      console.log('afterclose res : ', result);
+
       if (!result) {
-        console.log('inside condition !result')
         return;
       }
-      const dataList = this[list];
-      console.log('this : ',this);
-      const taskIndex = dataList.indexOf(task);
-      if (result.delete) {
-        console.log('if delte')
-        dataList.splice(taskIndex, 1);
-      } else {
-        console.log('else dele')
-        dataList[taskIndex] = task;
+
+      if(result.delete) {
+        this._firestore.collection(list).doc(task.id).delete()
+      }
+      else {
+        this._firestore.firestore.collection(list).doc(task.id).update(task)
       }
     });
   }
 
-  drop(event: CdkDragDrop<Task[]>): void {
-    console.log('previous container : ', event.previousContainer);
-    console.log('container : ', event.container)
+  drop(event: CdkDragDrop<any>): void {
     if (event.previousContainer === event.container) {
-      console.log('if event.previousContainer === event.container')
       return;
     }
     
     if (!event.container.data || !event.previousContainer.data) {
-      console.log('if !event.container.data || !event.previousContainer.data')
       return;
     }
+
+    const item = event.previousContainer.data[event.previousIndex];
+
+    this._firestore.firestore.runTransaction(() => {
+      const promises = Promise.all([
+        this._firestore.firestore.collection(event.previousContainer.id).doc(item.id).delete(),
+        this._firestore.firestore.collection(event.container.id).add(item)
+      ]);
+      return promises;
+    })
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
@@ -94,8 +113,11 @@ export class AppComponent {
       if(!res) {
         return;
       }
-
-      this.todo.push(res.task)
+      this.todoCollection.add(res.task);
     })
   }
+
+  identifyMe(index: any, item: any){
+    return item.id; 
+ }
 }
