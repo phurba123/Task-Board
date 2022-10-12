@@ -4,7 +4,6 @@
       "target": "TaskBoard",
       "public": "dist/task-log",
       "ignore": [
-        "**/.*"
       ],
       "headers": [
         {
