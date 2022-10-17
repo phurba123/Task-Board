@@ -9,13 +9,16 @@ import { AddTaskComponent } from './dialog/add-task/add-task.component';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule} from '@angular/fire/compat/firestore';
-import { AngularFireModule} from '@angular/fire/compat'
+import { AngularFireModule} from '@angular/fire/compat';
+import { BoardComponent } from './component/board/board.component';
+import { MainRoutingModule } from './routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskComponent,
-    AddTaskComponent
+    AddTaskComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +27,7 @@ import { AngularFireModule} from '@angular/fire/compat'
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    MainRoutingModule
     // AngularFirestoreModule.enablePersistence({ synchronizeTabs: true }),
   ],
   providers: [],

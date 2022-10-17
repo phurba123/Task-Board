@@ -1,6 +1,6 @@
 <mat-form-field>
     <mat-label>Title</mat-label>
-    <input matInput cdkFocusInitial [(ngModel)]="data.task.title" />
+    <input matInput cdkFocusInitial [(ngModel)]="data.task.title" #titleInput/>
   </mat-form-field>
   
   <mat-form-field>
@@ -9,7 +9,7 @@
   </mat-form-field>
   
   <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="{ task: data.task }">OK</button>
+    <button mat-button [mat-dialog-close]="{ task: data.task }" [disabled] = "data.task.title?.length===0 || !data.task.title">OK</button>
     <button mat-button (click)="cancel()">Cancel</button>
     
     <!-- delete button , display on condition -->

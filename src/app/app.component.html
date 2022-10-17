@@ -1,63 +1,9 @@
-
-
-<mat-toolbar style="border: 1px solid gray;">
-  <span>{{title | titlecase}}</span>
-</mat-toolbar>
-
-<div class="content-wrapper">
-
-  <button (click)="newTask()" mat-button class="add-btn">
-    <mat-icon>add</mat-icon> Add Task
-  </button>
-
-  <div class="container-wrapper">
-    
-    <div class="container">
-      <h2>Backlog</h2>
-
-      <mat-card
-        cdkDropList
-        id="todo"
-        #todoList="cdkDropList"
-        [cdkDropListData]="todo$| async"
-        [cdkDropListConnectedTo]="[doneList, inProgressList]"
-        (cdkDropListDropped)="drop($event)"
-        class="list">
-        <p class="empty-label" *ngIf="(todo$| async)?.length === 0">Empty list</p>
-        <app-task  (edit)="editTask('todo', $event)" *ngFor="let task of todo$ | async; trackBy:identifyMe" cdkDrag [task]="task"></app-task>
-      </mat-card>
-    </div>
-
-    <div class="container">
-      <h2>In progress</h2>
-
-      <mat-card
-        cdkDropList
-        id="inProgress"
-        #inProgressList="cdkDropList"
-        [cdkDropListData]="inProgress$ | async"
-        [cdkDropListConnectedTo]="[todoList, doneList]"
-        (cdkDropListDropped)="drop($event)"
-        class="list">
-        <p class="empty-label" *ngIf="(inProgress$| async)?.length === 0">Empty list</p>
-        <app-task (edit)="editTask('inProgress', $event)" *ngFor="let task of inProgress$ | async; trackBy:identifyMe" cdkDrag [task]="task"></app-task>
-      </mat-card>
-    </div>
-
-    <div class="container">
-      <h2>Done</h2>
-
-      <mat-card
-        cdkDropList
-        id="done"
-        #doneList="cdkDropList"
-        [cdkDropListData]="done$| async"
-        [cdkDropListConnectedTo]="[todoList, inProgressList]"
-        (cdkDropListDropped)="drop($event)"
-        class="list">
-        <p class="empty-label" *ngIf="(done$| async)?.length === 0">Empty list</p>
-        <app-task (edit)="editTask('done', $event)" *ngFor="let task of done$| async; trackBy:identifyMe" cdkDrag [task]="task"></app-task>
-      </mat-card>
-    </div>
+<div class="main">
+  <mat-toolbar>
+    <span>{{title | titlecase}}</span>
+  </mat-toolbar>
+  <div class="container">
+    <router-outlet></router-outlet>
   </div>
 </div>
+

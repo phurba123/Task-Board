@@ -6,7 +6,8 @@ import { MatCardModule} from '@angular/material/card';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input'
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule} from '@angular/material/divider'
 
 
 
@@ -20,7 +21,8 @@ import { MatInputModule } from '@angular/material/input'
     DragDropModule,
     MatButtonModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatDividerModule
   ],
   exports:[
     MatIconModule,
@@ -29,7 +31,8 @@ import { MatInputModule } from '@angular/material/input'
     DragDropModule,
     MatButtonModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatDividerModule
   ]
 })
 export class MaterialModule { }
